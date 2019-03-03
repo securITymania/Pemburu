@@ -1,7 +1,9 @@
 #!/usr/bin/env python
 import requests, urlparse, sys
+import urllib3
 """ Pemburu by @Zigoo0 - http://www.Sec-Down.com/ """
 """ Specially created for Bug Bounty Hunting! """
+urllib3.disable_warnings()
 
 headers = {
 			'User-Agent': 'Mozilla/5.0 (Windows NT 6.2; rv:30.0) Gecko/20100101 Firefox/33.0',
