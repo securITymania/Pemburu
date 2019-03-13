@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-import requests, urlparse, sys
+import requests, urllib.parse, sys
 import urllib3
 """ Pemburu by @Zigoo0 - http://www.Sec-Down.com/ """
 """ Specially created for Bug Bounty Hunting! """
@@ -26,7 +26,7 @@ color = colors()
 
 #url_parser() parses a domain name and return the domain name + the file path
 def url_parser(url):
-	parser = urlparse.urlparse(url)
+	parser = urllib.parse.urlparse(url)
 	path = parser.path
 	full_domain = parser.netloc
 	return path, full_domain
@@ -82,10 +82,10 @@ def Domains_Hunter(url, headers):
 				name = domain_name.split('.')[0] #reading the first block in the domain to be replaced.
 				new_domain = domain_name.replace(name, domain)
 				full_url = protocol + new_domain + path
-				print "  [*] Testing %s"%full_url
+				print("  [*] Testing %s"%full_url)
 				requesting = requests.get(full_url, headers=headers, verify=False, timeout=3)
 				if requesting:
-					print color.green+"  [*] Seems I Hunted below url: %s"%full_url + color.end
+					print(color.green+"  [*] Seems I Hunted below url: %s"%full_url + color.end)
 			except Exception:
 				#print e
 				continue
@@ -97,10 +97,10 @@ def Files_Hunter(url, headers):
 	for filename in files:
 		try:
 			new_url = url.replace(link_main, filename) #This will replace the filename in the original url
-			print "  [*] Testing %s"%new_url
+			print("  [*] Testing %s"%new_url)
 			request = requests.get(new_url, headers=headers, verify=False, timeout=3)
 			if request:
-				print color.green+"  [*] Seems I Hunted below url: %s"%new_url + color.end
+				print(color.green+"  [*] Seems I Hunted below url: %s"%new_url + color.end)
 		except Exception:
 			#print e
 			continue
@@ -110,12 +110,12 @@ def link_tester(url):
 	try:
 		request = requests.get(url, headers=headers, verify=False, timeout=3)
 		if request.status_code != 200: #keep in mind that python will treat 301 & 302 as 200!
-			print "[*] The page is not even there! check your link again."
+			print("[*] The page is not even there! check your link again.")
 			exit()
 		else:
 			pass
 	except Exception:
-		print "[*] The URL seems to be dead or page is not found!"
+		print("[*] The URL seems to be dead or page is not found!")
 		exit()
 
 def execute_with_colors():
@@ -123,15 +123,15 @@ def execute_with_colors():
 	People using windows will get a lot of errors when running the application because of the coloring class,
 	So I created this function to solve this issue, Hopefully!
 	"""
-	print color.green+""" \n\t\ttPemburu By @Zigoo0 - http://www.Sec-Down.com/ """+color.end
-	print color.green+""" \t\tSpecially created for Bug Bounty Hunting! \n"""+color.end
-	url = raw_input(color.red+'[*] Enter the URL: '+color.end)
-	print color.green+"[*] Testing the provided url ..."+color.end
+	print(color.green+""" \n\t\ttPemburu By @Zigoo0 - http://www.Sec-Down.com/ """+color.end)
+	print(color.green+""" \t\tSpecially created for Bug Bounty Hunting! \n"""+color.end)
+	url = input(color.red+'[*] Enter the URL: '+color.end)
+	print(color.green+"[*] Testing the provided url ..."+color.end)
 	link_tester(url)
-	print color.blue+"[*] URL seems Ok, Moving to the next phase ... "+color.end
-	print color.green+"[*] Hunting for files Started ....."+color.end
+	print(color.blue+"[*] URL seems Ok, Moving to the next phase ... "+color.end)
+	print(color.green+"[*] Hunting for files Started ....."+color.end)
 	Files_Hunter(url, headers)
-	print color.green+"[*] Hunting for domains Started ....."+color.end
+	print(color.green+"[*] Hunting for domains Started ....."+color.end)
 	Domains_Hunter(url, headers)	
 
 def execute_no_colors():
@@ -139,15 +139,15 @@ def execute_no_colors():
 	People using windows will get a lot of errors when running the application because of the coloring class,
 	So I created this function to solve this issue, Hopefully!
 	"""
-	print """ \n\t\tPemburu By @Zigoo0 - http://www.Sec-Down.com/ """
-	print """ \t\tSpecially created for Bug Bounty Hunting! \n"""
-	url = raw_input('[*] Enter the URL: ')
-	print "[*] Testing the provided url ..."
+	print(""" \n\t\tPemburu By @Zigoo0 - http://www.Sec-Down.com/ """)
+	print(""" \t\tSpecially created for Bug Bounty Hunting! \n""")
+	url = input('[*] Enter the URL: ')
+	print("[*] Testing the provided url ...")
 	link_tester(url)
-	print "[*] URL seems Ok, Moving to the next phase ... "
-	print "[*] Hunting for files Started ....."
+	print("[*] URL seems Ok, Moving to the next phase ... ")
+	print("[*] Hunting for files Started .....")
 	Files_Hunter(url, headers)
-	print "[*] Hunting for domains Started ....."
+	print("[*] Hunting for domains Started .....")
 	Domains_Hunter(url, headers)
 
 
@@ -157,8 +157,3 @@ if __name__ == "__main__":
 		execute_with_colors()
 	else:
 		execute_no_colors()
-
-
-
-
-
